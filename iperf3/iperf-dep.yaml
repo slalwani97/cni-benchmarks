@@ -1,0 +1,28 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  labels:
+    test-iperf3: server
+  name: iperf3-server
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      test-iperf3: server
+  template:
+    metadata:
+      labels:
+        test-iperf3: server
+    spec:
+      containers:
+      - name: iperf3-server
+        image: slalwani97/iperf
+        args:
+          - -s
+        ports:
+        - containerPort: 5201
+          protocol: TCP
+        - containerPort: 5201
+          protocol: UDP
