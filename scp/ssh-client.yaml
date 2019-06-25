@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ssh-client
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ssh-client
+    spec:
+      containers:
+      - name: ssh-client
+        image: slalwani97/openssh
+        command: ["sh", "-c", "service ssh start && sleep 10000"]
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 22
+      nodeSelector:
+        kubernetes.io/hostname: k8s-worker-02
