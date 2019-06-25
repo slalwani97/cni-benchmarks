@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test-http: client
+  name: http-client
+spec:
+  containers:
+  - name: http-client
+    image: alpine
+    command: ["sh", "-c", "apk update && apk add curl && curl -Lo 200MB.zip 10.244.1.10:80/200MB.zip"]
+    # command: ["sh", "-c", "wget 192.168.1.31:32225/200MB.zip"]
+  restartPolicy: OnFailure
+  nodeSelector:
+    kubernetes.io/hostname: k8s-worker-02
