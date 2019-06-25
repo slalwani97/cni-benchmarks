@@ -1,9 +1,15 @@
-exec into client
+1. Build the image
+  - cd cni-benchmarks/scp/image
+  - docker build -t <username>/scp-test .
 
-scp sumit@<server-pod-ip>:/home/sumit/file.zip ./file-scp.zip
-password - sumit
+2. Replace the image with your image (username/scp-test) in client and server yaml
 
-# adding this, will not ask for confirmation
-scp -o  StrictHostKeyChecking=no
+3. Run the server 
+  - kubectl apply -f ssh-server.yaml
 
-# sshpass tool to pass password to scp but will not print output
+4. Run the client
+  - kubectl apply -f ssh-client.yaml
+
+5. Now to run the test exec into the client pod 
+  - kubectl exec -it <client-pod-name> bash
+  - scp sumit@<server-pod-ip>:/home/sumit/200MB.zip ./scp-file.zip
